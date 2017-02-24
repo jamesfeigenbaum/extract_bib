@@ -16,5 +16,5 @@
 ### To Do
 
 - I use `natbib` and so the citations I search for in the `tex` file are only `citet{}` and `citep{}`. Expand this to other citation functions.
-- I remove some crud from the library put there by my citation manager (Mendeley](https://www.mendeley.com/)), including annotations and file locations, as well as abstracts. If there are other unneeded fields, they can be removed from the minimal library output.
+- I remove some crud from the library put there by my citation manager ([Mendeley](https://www.mendeley.com/)), including annotations and file locations, as well as abstracts. If there are other unneeded fields, they can be removed from the minimal library output.
 - Expand to work with multiple input libraries or multiple input `tex` files?
