@@ -3,6 +3,7 @@
 ## 24feb2017
 
 ### Introduction
+
 `extract_bib` is a simple `R` script to create minimal a `bibtex` library file for an article. Some journals require `tex` and `bib` files with submissions. However, I have only one *master* `bib` file. That file currently contains 3543 references. Rather than send all of that to the journal to help typeset my manuscript, I only want to send a `bib` file with the references included in my article. This script does that.
 
 ### Work flow

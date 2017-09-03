@@ -6,8 +6,10 @@
 # extract a list of the citations used in the tex file
 # and produce a new bib file with ONLY those citations
 
+# updated 3sept2017 to remove the loop when pulling cites from tex file
+
 library(data.table)
-library(magrittr)
+library(tidyverse)
 library(stringr)
 library(zoo)
 
@@ -19,26 +21,24 @@ bib <- "library.bib"
 bib.out <- "min_library.bib"
 
 # read the tex file
-dt.tex <- read.csv(tex, sep = "\n", header = FALSE) %>%
+dt.tex <- read_lines(tex) %>%
   as.data.table() %>%
+  setnames("V1") %>%
   .[str_detect(V1, "\\\\cite")]
 
 # pull cites out
-dt <- data.table()
-
-for (i in (1:nrow(dt.tex))){
-  d <- dt.tex[i]$V1 %>%
-    str_extract_all(., "\\\\cite.+?\\}", simplify = TRUE) %>%
-    t() %>%
-    as.data.table()
-
-  dt <- rbind(dt, d)
-}
-
-# remove tex formatting
-dt[, cite := str_replace(V1, "\\\\cite.?", "")] %>%
-  .[, cite := str_replace_all(cite, "[{}]", "")] %>%
-  .[, cite := str_replace_all(cite, "\\[.*?\\]", "")]
+dt <-
+  dt.tex %>%
+  select("V1") %>%
+  # find the citations
+  str_extract_all("\\\\cite.+?\\}", simplify = TRUE) %>%
+  t() %>%
+  as.data.table() %>%
+  # remove tex formatting
+  .[, cite := V1 %>%
+      str_replace("\\\\cite.?", "") %>%
+      str_replace_all("[{}]", "") %>%
+      str_replace_all("\\[.*?\\]", "")]
 
 # split on comma
 # first max cites in one row?
